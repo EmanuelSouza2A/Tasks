@@ -14,3 +14,43 @@ fetch(url)
   .catch(error => {
     console.error("Deu um erro ao tentar buscar os dados:", error);
   });
+
+// ==========================================
+// PARTE 2: AUTOMAÇÃO NA TELA (SALA DO FUTURO)
+// ==========================================
+
+function responderTarefaAutomaticamente(respostaCorreta) {
+    console.log("Iniciando a automação da tarefa...");
+
+    // 1. Encontrar todas as alternativas na tela
+    // (O seletor '.alternativa' é um exemplo, precisamos ver o código fonte real da página depois)
+    const alternativas = document.querySelectorAll('.alternativa'); 
+    
+    if (alternativas.length === 0) {
+        console.error("Nenhuma alternativa encontrada na tela. Verifique se você está na página da tarefa.");
+        return;
+    }
+
+    // 2. Marcar a resposta
+    alternativas.forEach(botao => {
+        // Se o texto do botão for igual à resposta que a API puxou, o robô clica
+        if (botao.innerText.includes(respostaCorreta)) {
+            botao.click();
+            console.log("Resposta selecionada: " + respostaCorreta);
+        }
+    });
+
+    // 3. Clicar no botão de enviar/finalizar
+    setTimeout(() => {
+        const botaoEnviar = document.querySelector('.btn-enviar-tarefa'); // Exemplo de botão
+        if (botaoEnviar) {
+            botaoEnviar.click();
+            console.log("Tarefa enviada e marcada como concluída!");
+        } else {
+            console.error("Botão de enviar não encontrado.");
+        }
+    }, 2000); // Espera 2 segundos antes de enviar para o sistema não desconfiar
+}
+
+// Para testar, a gente chamaria a função assim (simulando que a API deu a resposta "A"):
+// responderTarefaAutomaticamente("A");
